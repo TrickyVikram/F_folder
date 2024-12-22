@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flower</title>
+<style>
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000000;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.container::before {
+    content: '';
+    width: 70px;
+    height: 200px;
+    border-radius: 50%;
+    border-left: 10px solid green;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    top: 60%;
+    left: 49%;
+}
+
+.container::after {
+    content: '';
+    width: 90px;
+    height: 60px;
+    border-radius: 50%;
+    border-bottom: 20px solid transparent;
+    border-top: 20px solid green;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+}
+
+.point {
+    width: 100px;
+    height: 100px;
+    background: rgb(244,226,54);
+    background: linear-gradient(180deg, rgba(244,226,54,1) 0%, rgba(253,29,29,1) 100%);
+    position: absolute;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 200px;
+    border-top-left-radius: 200px;
+}
+
+/* Star CSS */
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgb(241, 45, 45);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 2s infinite ease-in-out alternate;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(0.5);
+    }
+}
+
+/* Random star positioning */
+.star:nth-child(odd) {
+    animation-duration: 3s;
+}
+
+.star:nth-child(even) {
+    animation-duration: 2s;
+}
+
+/* Star random positioning */
+@keyframes star-animation {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="stars">
+    <div class="star" style="top: 10%; left: 20%;"></div>
+    <div class="star" style="top: 15%; left: 40%;"></div>
+    <div class="star" style="top: 25%; left: 60%;"></div>
+    <div class="star" style="top: 30%; left: 80%;"></div>
+    <div class="star" style="top: 50%; left: 10%;"></div>
+    <div class="star" style="top: 60%; left: 35%;"></div>
+    <div class="star" style="top: 70%; left: 55%;"></div>
+    <div class="star" style="top: 80%; left: 75%;"></div>
+    <div class="star" style="top: 85%; left: 90%;"></div>
+    <div class="star" style="top: 95%; left: 15%;"></div>
+</div>
+
+<div class="container" id="points-container"></div>
+
+<script>
+const container = document.getElementById("points-container");
+const numPoints = 10;
+function createPoint() {
+    const point = document.createElement("div");
+    point.classList.add("point");
+    container.appendChild(point);
+   
+    point.style.left = "50%";
+    point.style.top = "50%";
+ 
+    const animation = point.animate(
+        [
+            { transform: "translate(-50%, -50%) rotate(-50deg)" },
+            { transform: "translate(20%, -40%)" }
+        ],
+        {
+            duration: 2000 + Math.random() * 2000,
+            easing: "linear",
+            iterations: Infinity,
+            direction: "alternate",
+        }
+    );
+    return { point, animation };
+}
+
+function startAnimation() {
+    for (let i = 0; i < numPoints; i++) {
+        createPoint();
+    }
+}
+
+startAnimation();
+</script>
+</body>
+</html>
